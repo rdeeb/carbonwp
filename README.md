@@ -13,7 +13,7 @@ CarbonWP is a starter theme that embraces a modern workflow.
 
 - Wordpress >= 4.7
 - PHP >= 7.1
-- Node.js >= 10.0.0
+- Node.js >= 10.4.1
 - Yarn
 
 ## Installation

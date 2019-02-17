@@ -1,0 +1,21 @@
+{
+    "name": "rdeeb/carbon",
+    "description": "A base theme for Wordpress",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ramy Deeb",
+            "email": "me@ramydeeb.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Carbon\\": "src/Carbon"
+        }
+    },
+    "require": {
+        "symfony/yaml": "^4.2",
+        "nikic/fast-route": "^1.3"
+    }
+}

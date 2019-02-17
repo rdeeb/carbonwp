@@ -1,0 +1,9 @@
+{
+  "name": "carbon-wp",
+  "description": "CarbonWP is a starter theme that embraces a modern workflow.",
+  "version": "0.1",
+  "repository": "git@github.com:rdeeb/carbonwp.git",
+  "author": "Ramy Deeb <me@ramydeeb.com>",
+  "license": "MIT",
+  "private": true
+}
