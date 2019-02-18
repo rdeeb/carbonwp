@@ -17,6 +17,18 @@ add_action( 'tgmpa_register', 'carbonwp_register_required_plugins' );
 add_action( 'after_setup_theme', 'carbonwp_theme_support' );
 
 // Filters -------------------------------------------------------------------------------------------------------------
+add_filter('carbon_add_route', function( $routes ) {
+    $routes['/'] = [
+        'controller' => 'HomeController',
+        'action' => 'index',
+        'query' => [
+            'posts_per_page' => 5,
+            'orderby'        => 'date',
+            'order'          => 'desc'
+        ]
+    ];
+    return $routes;
+});
 
 // Functions -----------------------------------------------------------------------------------------------------------
 if ( ! function_exists( 'carbonwp_register_required_plugins' ) ) {

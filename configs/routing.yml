@@ -1,0 +1,9 @@
+routes:
+  Homepage:
+    route: /
+    controller: HomeController
+    action: index
+    query:
+      posts_per_page: 5
+      orderby:        'date'
+      order:          'desc'

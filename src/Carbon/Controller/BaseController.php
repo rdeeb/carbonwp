@@ -10,16 +10,19 @@ use Timber\LocationManager;
 
 abstract class BaseController
 {
-    protected $title;
     protected $scripts  = [];
     protected $styles   = [];
+    protected $title;
+    protected $wp;
 
     /**
      * BaseController constructor.
      *
      * Initializes variables and required hooks
+     * @param \WP $wp wordpress object
      */
-    public function __construct() {
+    public function __construct( \WP $wp ) {
+        $this->wp = $wp;
         // Actions
         add_action( 'wp_enqueue_scripts', [ $this, 'processScripts' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'processStyles' ] );
@@ -68,7 +71,7 @@ abstract class BaseController
      * @param array $deps Dependencies for this scripts
      * @param string|null $ver The script version
      */
-    protected function enqueueScript( $name, $src, $footer = true, $deps = [], $ver = null ) {
+    protected function addScript( $name, $src, $footer = true, $deps = [], $ver = null ) {
         $this->scripts[ $name ] = [
             'src'       => $src,
             'footer'    => $footer,
@@ -86,7 +89,7 @@ abstract class BaseController
      * @param array $deps Dependencies for this scripts
      * @param string|null $ver The script version
      */
-    protected function enqueueStyle( $name, $src, $media = 'all', $deps = [], $ver = null ) {
+    protected function addStyle( $name, $src, $media = 'all', $deps = [], $ver = null ) {
         $this->styles[ $name ] = [
             'src'   => $src,
             'media' => $media,

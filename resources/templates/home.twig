@@ -1,5 +1,12 @@
 {% extends "layouts/base.twig" %}
 
 {% block page_content %}
-    This should be the homepage <i class="fa fa-home"></i>
+    <p>This should be the homepage <i class="fa fa-home"></i></p>
+    <h2>Some Posts</h2>
+    {% for post in posts %}
+        <article class="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.preview.length(25) }}</p>
+        </article>
+    {% endfor %}
 {% endblock %}
