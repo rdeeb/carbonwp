@@ -18,6 +18,7 @@ add_action( 'after_setup_theme', 'carbonwp_theme_support' );
 
 // Filters -------------------------------------------------------------------------------------------------------------
 add_filter('carbon_add_route', function( $routes ) {
+    // Homepage
     $routes['/'] = [
         'controller' => 'HomeController',
         'action' => 'index',
@@ -27,6 +28,18 @@ add_filter('carbon_add_route', function( $routes ) {
             'order'          => 'desc'
         ]
     ];
+
+    // Posts or Pages
+    $routes['/^([^/]+)'] = [
+        'controller' => 'PostController',
+        'action' => 'single',
+        'query' => [
+            'post_type' => 'any',
+            'name' => '%%matches_1%%',
+            'posts_per_page' => 1,
+        ]
+    ];
+
     return $routes;
 });
 

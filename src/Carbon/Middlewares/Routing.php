@@ -47,14 +47,27 @@ class Routing
         $query_vars = null;
         $is_matched = false;
 
-        foreach( $routes as $pattern => $options ) {
-            if ( preg_match( '~' . trim( $pattern, '/' ) . '~', $urlPath, $matches ) ) {
-                $routeVars = $this->parseMatch( $options, $matches );
-                if ( is_array( $routeVars ) ) {
-                    $query_vars = array_merge( $routeVars, $urlVars );
+        // We are on the homepage
+        if ( empty( $urlPath ) && isset( $routes[ '/' ] ) ) {
+            $options = $routes[ '/' ];
+            $routeVars = $this->parseMatch( $options, [] );
+            if ( is_array( $routeVars ) ) {
+                $query_vars = array_merge( $routeVars, $urlVars );
+            }
+            $is_matched = $options;
+        } else {
+            // Not home so do some searching
+            foreach( $routes as $pattern => $options ) {
+                $pattern = trim( $pattern, '/' );
+
+                if ( ! empty( $pattern ) && preg_match( '~' . $pattern . '~', $urlPath, $matches ) ) {
+                    $routeVars = $this->parseMatch( $options, $matches );
+                    if ( is_array( $routeVars ) ) {
+                        $query_vars = array_merge( $routeVars, $urlVars );
+                    }
+                    $is_matched = $options;
+                    break;
                 }
-                $is_matched = $options;
-                break;
             }
         }
 
@@ -89,13 +102,19 @@ class Routing
 
         $query = $options[ 'query' ];
         // Translate %%matches_i%% to $matches[$i]
-        if ( isset( $query[ 'post_type' ] ) && strpos( $query[ 'post_type' ], '%%matches_' ) !== false ) {
-            $post_type = $query[ 'post_type' ];
-            $post_type = trim( $post_type, '%%' );
-            $parts = explode( '_', $post_type, 2 );
-            $query[ 'post_type' ] = $matches[ $parts[1] ];
+        foreach ($query as $key => $value) {
+            $query[ $key ] = $this->translateMatches( $value, $matches );
         }
         return $query;
+    }
+
+    private function translateMatches( $value, $matches ) {
+        if ( strpos( $value, '%%matches_' ) !== false ) {
+            $value_to_match = trim( $value, '%%' );
+            $parts = explode( '_', $value_to_match, 2 );
+            $value = $matches[ $parts[1] ];
+        }
+        return $value;
     }
 
     private function includeController( $controller ) {

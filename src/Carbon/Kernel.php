@@ -7,11 +7,13 @@ use Carbon\Utils\Singleton;
 
 final class Kernel extends Singleton
 {
+    protected $routing;
+
     public function init() {
         add_action( 'init', [ $this, 'setupRouteMiddleware' ] );
     }
 
     public function setupRouteMiddleware() {
-        $routing = new Routing();
+        $this->routing = new Routing();
     }
 }
